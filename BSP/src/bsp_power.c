@@ -30,6 +30,7 @@ typedef enum {
 //DisplayMode disp_temp_hum = DISPLAY_TEMP;  // 默认显示温度
 uint8_t disp_temp_hum;
 
+uint8_t fan_run_one_minute;
 
 
 /**********************************************************************
@@ -200,15 +201,15 @@ void power_on_run_handler(void)
 
 	 case 3: //WIFI link process
 	 
-    
-		         Update_Dht11_Totencent_Value()  ;
-				   osDelay(200);
-				   
-			   	
+          if(g_pro.gTimer_switch_temp_hum > 2){
 
-            
-			                  
-					 sendData_Real_TimeHum(g_pro.g_humidity_value, g_pro.g_temperature_value);				
+		  g_pro.gTimer_switch_temp_hum =0;
+		  Update_Dht11_Totencent_Value()  ;
+		 
+		   sendData_Real_TimeHum(g_pro.g_humidity_value, g_pro.g_temperature_value);	
+		   osDelay(5);
+
+          }
 
 		
 
@@ -263,7 +264,7 @@ void power_on_run_handler(void)
 void power_off_run_handler(void)
 {
 
-   static uint8_t fan_run_one_minute,fan_flag,wifi_first_connect;
+   static uint8_t fan_flag,wifi_first_connect;
    switch(gl_run.process_off_step){
 
    case 0:

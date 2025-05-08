@@ -153,13 +153,13 @@ typedef struct _process{
    
    uint8_t  gTimer_disp_time_second;
    uint8_t  gTimer_timer_time_second;
-   uint8_t  gTimer_wifi_led_fast_blink;
+   
    uint8_t  gTimer_switch_temp_hum;
-   uint8_t  gTimer_switch_set_timer_times;
-   uint8_t  gTimer_input_set_temp_times;
+  
+ 
    uint8_t   gTimer_fan_run_one_minute;
-   uint8_t   gTimer_input_set_temp_timer;
-   uint8_t gTimer_disp_temp_humidity_vlaue;
+
+
    uint8_t gTimer_display_adc_value;
 }process_t;
 

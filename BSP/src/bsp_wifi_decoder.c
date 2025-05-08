@@ -772,7 +772,7 @@ void Json_Parse_Command_Fun(void)
             g_pro.gset_temperture_value = g_wifi.wifi_set_temperature_value;
 			
 			g_wifi.g_wifi_set_temp_flag=1;
-			g_pro.gTimer_input_set_temp_timer= 0;
+		
 			g_pro.g_manual_shutoff_dry_flag=0;
 			
 			

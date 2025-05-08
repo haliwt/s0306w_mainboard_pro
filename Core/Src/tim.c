@@ -241,7 +241,7 @@ void MX_TIM17_Init(void)
   htim17.Init.Prescaler = 63;//63;
   htim17.Init.CounterMode = TIM_COUNTERMODE_UP;
   //htim17.Init.Period = 999; //Fhz= 1/(999+1)MHZ=0.001MHz=1KHz,Thz = 1/Fhz= (1/1(KHz))ms = 1ms
-  htim17.Init.Period = 9999; //Fhz= 1/(9999+1)MHZ=0.0001MHz=0.1KHz,Thz = 1/Fhz= (1/0.1(KHz))ms = 10ms
+  htim17.Init.Period = 999; //Fhz= 1/(9999+1)MHZ=0.0001MHz=0.1KHz,Thz = 1/Fhz= (1/0.1(KHz))ms = 1ms
   htim17.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
   htim17.Init.RepetitionCounter = 0;
   htim17.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;

@@ -171,7 +171,7 @@ static void link_wifi_net_handler(void)
             // HAL_Delay(1000);
             ///HAL_Delay(1000);
         
-		
+
             g_wifi.link_net_step = 6;
             g_wifi.gTimer_link_net_timer_time = 0;
             }
@@ -211,7 +211,7 @@ static void link_wifi_net_handler(void)
 
             case 7:
 
-          
+ 
               g_wifi.gTimer_get_data_from_tencent_data=0;
 			 
 				 MqttData_Publish_SetOpen(0x01);

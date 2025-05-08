@@ -206,7 +206,7 @@ void receive_data_from_displayboard(uint8_t *pdata)
           buzzer_sound();
 		  
         
-	      g_wifi.gTimer_wifi_led_fast_blink = 0; //look for wifi information 120s,timer.
+	     
 	      g_wifi.gwifi_link_net_state_flag=0 ; //clear wifi link net flag .repeat be detected wifi state.
 		  g_wifi.wifi_led_fast_blink_flag=1;   // led blink flag .
         
@@ -316,7 +316,7 @@ void receive_data_from_displayboard(uint8_t *pdata)
                g_pro.g_manual_shutoff_dry_flag =0;
                 g_pro.key_set_temperature_flag=2;
 				
-			    g_pro.gTimer_input_set_temp_timer= 0;
+			  
 			   
 				g_pro.gset_temperture_value = pdata[5];
 				g_wifi.wifi_set_temperature_value = pdata[5];
@@ -404,7 +404,7 @@ void receive_data_from_displayboard(uint8_t *pdata)
 			
 				g_pro.key_gtime_timer_define_flag = input_set_timer_mode;
 				g_pro.key_set_timer_flag =1;
-				g_pro.gTimer_switch_set_timer_times = 0;
+				
 			  
 			    g_pro.gdisp_timer_hours_value = pdata[5];
 			
@@ -496,7 +496,7 @@ static void copy_receive_data(uint8_t cmd,uint8_t data)
 	   	if(data == 1){
 			buzzer_sound();
          
-			g_wifi.gTimer_wifi_led_fast_blink = 0; //time start 120s ->look for wifi information 120s,timer.
+			
 			g_wifi.gwifi_link_net_state_flag=0 ; //clear wifi link net flag .repeat be detected wifi state.
 			g_wifi.wifi_led_fast_blink_flag=1;   // led blink flag .
 
