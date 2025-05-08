@@ -26,7 +26,7 @@ uint8_t inputBuf[1];
 /***********************************************************************************************************
 											函数声明
 ***********************************************************************************************************/
-//static void vTaskRunPro(void *pvParameters);
+static void vTaskRunPro(void *pvParameters);
 //static void vTaskDecoderPro(void *pvParameters);
 static void vTaskStart(void *pvParameters);
 static void AppTaskCreate (void);
@@ -40,7 +40,7 @@ static void AppTaskCreate (void);
 /***********************************************************************************************************
 											变量声明
 ***********************************************************************************************************/
-//static TaskHandle_t xHandleTaskRunPro = NULL;
+static TaskHandle_t xHandleTaskRunPro = NULL;
 //static TaskHandle_t xHandleTaskDecoderPro= NULL;
 static TaskHandle_t xHandleTaskStart = NULL;
 
@@ -87,10 +87,43 @@ void freeRTOS_Handler(void)
 *	Return Ref:
 *   priority: 1  (数值越小优先级越低，这个跟uCOS相反)
 **********************************************************************************************************/
+static void vTaskRunPro(void *pvParameters)
+{
+    while(1){
+
+      
+	
+	 power_onoff_handler(g_pro.gpower_on);
+	
+	
+	
+	if(g_wifi.wifi_led_fast_blink_flag==0 ){
+		wifi_communication_tnecent_handler();//
+		getBeijingTime_cofirmLinkNetState_handler();
+		wifi_auto_detected_link_state();
+	}
+	
+	copy_cmd_hanlder();
+
+     osDelay(10);
+
+
+
+	}
+
+}
+
+/**********************************************************************************************************
+*	Function Name:static void vTaskStart(void *pvParameters)
+*	Function:
+*	Input Ref: pvParameters 是在创建该任务时传��的形参
+*	Return Ref:
+*   priority: 1  (数值越小优先级越低，这个跟uCOS相反)
+**********************************************************************************************************/
 static void vTaskStart(void *pvParameters)
 {
     BaseType_t xResult;
-	const TickType_t xMaxBlockTime = pdMS_TO_TICKS(1000); /* 设置最大等待时间为30ms */
+	//const TickType_t xMaxBlockTime = pdMS_TO_TICKS(1000); /* 设置最大等待时间为30ms */
 	uint32_t ulValue;
 
 
@@ -100,7 +133,7 @@ static void vTaskStart(void *pvParameters)
 	xResult = xTaskNotifyWait(0x00000000,
 								  0xFFFFFFFF,     /* Reset the notification value to 0 on */
 								&ulValue,        /* 保存ulNotifiedValue到变量ulValue中 */
-								xMaxBlockTime);//portMAX_DELAY);  /* 阻塞时间30ms，释放CUP控制权,给其它任务执行的权限*/
+								portMAX_DELAY);//portMAX_DELAY);  /* 阻塞时间30ms，释放CUP控制权,给其它任务执行的权限*/
 
 	if( xResult == pdPASS )
 	{
@@ -120,22 +153,7 @@ static void vTaskStart(void *pvParameters)
 				
 		 }
 	 }
-	 else{
-
-		     power_onoff_handler(g_pro.gpower_on);
-
-			
-
-			if(g_wifi.wifi_led_fast_blink_flag==0 ){
-				wifi_communication_tnecent_handler();//
-				getBeijingTime_cofirmLinkNetState_handler();
-				wifi_auto_detected_link_state();
-			}
-
-			copy_cmd_hanlder();
-
-
-		 }
+	 
 	 }
 }
 
@@ -148,11 +166,18 @@ static void vTaskStart(void *pvParameters)
 void AppTaskCreate (void)
 {
 
-      xTaskCreate( vTaskStart,     		/* 任务函数  */
+      xTaskCreate( vTaskRunPro,     		/* 任务函数  */
                  "vTaskStart",   		/* 任务各1�7    */
-                 256,            		/* 任务栈大小，单位word，也就是4字节 */
+                 128,            		/* 任务栈大小，单位word，也就是4字节 */
                  NULL,           		/* 任务参数  */
                  1,              		/* 任务优先纄1�7 数��越小优先级越低，这个跟uCOS相反 */
+                 &xHandleTaskRunPro );   /* 任务句柄  */
+
+	  xTaskCreate( vTaskStart,     		/* 任务函数  */
+                 "vTaskStart",   		/* 任务各1�7    */
+                 128,            		/* 任务栈大小，单位word，也就是4字节 */
+                 NULL,           		/* 任务参数  */
+                 2,              		/* 任务优先纄1�7 数��越小优先级越低，这个跟uCOS相反 */
                  &xHandleTaskStart );   /* 任务句柄  */
 }
 

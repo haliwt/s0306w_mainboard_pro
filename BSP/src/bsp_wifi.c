@@ -25,9 +25,9 @@ static void link_wifi_net_handler(void);
 void link_wifi_to_tencent_handler(uint8_t data)
 {
     if(data == 1){//if(gpro_t.wifi_led_fast_blink_flag==1){
-        if(g_wifi.gTimer_wifi_led_fast_blink  > 119){
+        if(g_wifi.gTimer_wifi_led_fast_counter  > 119){
 
-           g_wifi.gTimer_wifi_led_fast_blink =0;//
+           g_wifi.gTimer_wifi_led_fast_counter =0;//
            g_wifi.wifi_led_fast_blink_flag=0;
            
            if(g_wifi.gwifi_link_net_state_flag==0){
@@ -184,26 +184,26 @@ static void link_wifi_net_handler(void)
 
             if( g_wifi.gTimer_link_net_timer_time  > 6){
 
-             if(g_wifi.gwifi_link_net_state_flag==1){
-			
-			    
-				//g_wifi.first_link_tencent_cloud_flag =1;
-				first_connect_wifi_flag =1 ;
-				g_wifi.get_rx_beijing_time_enable=0;
-                
-               SendWifiData_One_Data(0x1F,0x01); //link wifi order 1 --link wifi net is success.
-			   g_wifi.link_net_step = 7;
-              
+	             if(g_wifi.gwifi_link_net_state_flag==1){
 				
-		     }
-		     else{
-                
-                  g_wifi.wifi_led_fast_blink_flag=0;
-                  g_wifi.link_net_step = 8;
-                  SendWifiData_One_Data(0x1F,0x00) ;	 //Link wifi net is fail .WT.EDTI .2024.08.31
-                
-           
-                }
+				    
+					//g_wifi.first_link_tencent_cloud_flag =1;
+					first_connect_wifi_flag =1 ;
+					g_wifi.get_rx_beijing_time_enable=0;
+	                
+	               SendWifiData_One_Data(0x1F,0x01); //link wifi order 1 --link wifi net is success.
+				   g_wifi.link_net_step = 7;
+	              
+					
+			     }
+			     else{
+	                
+	                  g_wifi.wifi_led_fast_blink_flag=0;
+	                  g_wifi.link_net_step = 8;
+	                  SendWifiData_One_Data(0x1F,0x00) ;	 //Link wifi net is fail .WT.EDTI .2024.08.31
+	                
+	           
+	                }
                 
                }
 

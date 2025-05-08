@@ -186,13 +186,13 @@ void power_on_run_handler(void)
 
 	case 2:
 
-	
-      if(g_pro.key_set_temperature_flag==1){
-
-         read_error_flag= DHT11_Display_Data(DISPLAY_TEMP); // 显示温度
-         if(read_error_flag == 0)DHT11_Display_Data(DISPLAY_TEMP);
-
-      }
+//	
+//      if(g_pro.key_set_temperature_flag==1){
+//
+//         read_error_flag= DHT11_Display_Data(DISPLAY_TEMP); // 显示温度
+//         if(read_error_flag == 0)DHT11_Display_Data(DISPLAY_TEMP);
+//
+//      }
      
     
 	  gl_run.process_on_step =3;
@@ -204,7 +204,10 @@ void power_on_run_handler(void)
           if(g_pro.gTimer_switch_temp_hum > 2){
 
 		  g_pro.gTimer_switch_temp_hum =0;
-		  Update_Dht11_Totencent_Value()  ;
+
+		  if(g_wifi.gwifi_link_net_state_flag == wifi_link_success){
+		     Update_Dht11_Totencent_Value()  ;
+		  }
 		 
 		   sendData_Real_TimeHum(g_pro.g_humidity_value, g_pro.g_temperature_value);	
 		   osDelay(5);

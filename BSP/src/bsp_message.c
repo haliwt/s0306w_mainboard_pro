@@ -203,10 +203,11 @@ void receive_data_from_displayboard(uint8_t *pdata)
 	 	if(pdata[4]==0x01){
         if(g_pro.gpower_on == power_on){ 
 		  SendWifiData_Answer_Cmd(0x05,0x01); //WT.EDIT 2024.12.28
+		  osDelay(5);
           buzzer_sound();
 		  
-        
-	     
+          g_wifi.gTimer_wifi_led_fast_counter=0;
+	      g_wifi.link_net_step=0;
 	      g_wifi.gwifi_link_net_state_flag=0 ; //clear wifi link net flag .repeat be detected wifi state.
 		  g_wifi.wifi_led_fast_blink_flag=1;   // led blink flag .
         
@@ -494,11 +495,11 @@ static void copy_receive_data(uint8_t cmd,uint8_t data)
 
 	   case CMD_CONNECT_WIFI:
 	   	if(data == 1){
-			buzzer_sound();
+			//buzzer_sound();
          
 			
-			g_wifi.gwifi_link_net_state_flag=0 ; //clear wifi link net flag .repeat be detected wifi state.
-			g_wifi.wifi_led_fast_blink_flag=1;   // led blink flag .
+			//g_wifi.gwifi_link_net_state_flag=0 ; //clear wifi link net flag .repeat be detected wifi state.
+			//g_wifi.wifi_led_fast_blink_flag=1;   // led blink flag .
 
 		}
 		else{

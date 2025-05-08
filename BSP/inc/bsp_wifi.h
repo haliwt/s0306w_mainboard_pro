@@ -77,7 +77,7 @@ typedef struct _wifi_state_ref{
   uint8_t gTimer_get_beijing_time;
  
 
-  uint8_t  gTimer_wifi_led_fast_blink;
+  uint8_t  gTimer_wifi_led_fast_counter;
   uint8_t  gTimer_get_data_from_tencent_data;
   uint8_t gTimer_auto_link_net_time;
   uint8_t gTimer_auto_detected_net_state_times;
