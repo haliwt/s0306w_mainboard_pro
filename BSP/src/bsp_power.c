@@ -168,7 +168,9 @@ void power_on_run_handler(void)
 	   g_pro.gTimer_two_hours_counter = 0;
 	   g_pro.g_fan_switch_gears_flag++;
 	   gl_run.process_off_step=0;
-	  
+	   g_pro.gTimer_display_adc_value=0;
+	   g_pro.ptc_warning=0;
+	   g_pro.fan_warning = 0;
 	   
 	   g_pro.works_two_hours_interval_flag=0; //WT.EDIT 2025.05.07
 	   gl_run.process_on_step =1;
@@ -338,8 +340,11 @@ void power_off_run_handler(void)
 
        }
 	   g_pro.g_fan_switch_gears_flag++;
+	  g_pro.ptc_warning=0;
+	   g_pro.fan_warning = 0;
+	    g_pro.works_two_hours_interval_flag=0; //WT.EDIT 2025.05.07
       gl_run.process_off_step = 1;
-	   g_pro.works_two_hours_interval_flag=0; //WT.EDIT 2025.05.07
+	  
 	  
 
    break;

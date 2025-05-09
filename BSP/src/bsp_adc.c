@@ -79,6 +79,13 @@ void Get_PTC_Temperature_Voltage(uint32_t channel,uint8_t times)
 	#endif 
 
 	 Judge_PTC_Temperature_Value(ptc_temp_voltage);
+	if(g_pro.ptc_warning ==1){
+
+     SendWifiData_To_Cmd(0x08, g_pro.ptc_warning);
+	 osDelay(5);
+	 Buzzer_Ptc_Error_Sound();
+
+	}
 
      
 }
@@ -144,6 +151,14 @@ void Get_Fan_Adc_Fun(uint32_t channel,uint8_t times)
 
 
 	Judge_Fan_State(fan_detect_voltage);
+
+	if(g_pro.fan_warning ==1){
+
+     SendWifiData_To_Cmd(0x09, g_pro.fan_warning);
+	 osDelay(5);
+	 Buzzer_Fan_Error_Sound();
+
+	}
 
 
     
