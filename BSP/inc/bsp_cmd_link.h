@@ -42,11 +42,14 @@ void SendWifiData_To_Cmd(uint8_t cmd,uint8_t data);
 
 void SendWifiData_One_Data(uint8_t cmd,uint8_t data);
 
-void SendWifidata_Two_Data(uint8_t cmd,uint8_t datacmd);
+void SendWifidata_Two_Data(uint8_t cmd,uint8_t data1,uint8_t data2);
+
 
 void SendWifiData_Answer_Cmd(uint8_t cmd ,uint8_t data);
 
 void SendData_Set_Command(uint8_t cmd,uint8_t data);
+
+void SendWifidata_Three_Data(uint8_t cmd,uint8_t data1,uint8_t data2,uint8_t data3);
 
 
 #endif /* BSP_INC_BSP_CMD_LINK_H_ */

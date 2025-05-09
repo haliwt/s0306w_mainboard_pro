@@ -239,7 +239,7 @@ void Update_DHT11_ToDisplayBoard_Value(void)
     
      static uint8_t error_flag;
 	 error_flag = dht11_read_data(&dht11_data.temperature,&dht11_data.humidity);
-     osDelay(200);
+     osDelay(50);
 	
     if(error_flag ==0)
 		g_pro.g_temperature_value = dht11_data.temperature;

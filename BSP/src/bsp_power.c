@@ -119,7 +119,7 @@ void power_on_run_handler(void)
 {
 
    static uint8_t send_data_disp_counter,read_error_flag,switch_adc,swich_send_data;
-   static uint8_t start_power_on;
+   static uint8_t start_power_on,app_flag;
 
 	switch(gl_run.process_on_step){
 
@@ -128,6 +128,7 @@ void power_on_run_handler(void)
        gl_run.process_off_step =0 ; //clear power off process step .
 	   g_disp.g_second_disp_flag = 1;
 	   g_pro.set_temp_value_success=0;
+	  
       
        if(g_wifi.gwifi_link_net_state_flag == wifi_no_link || g_wifi.app_timer_power_on_flag == 0){
 	      
@@ -142,19 +143,18 @@ void power_on_run_handler(void)
 		  MqttData_Publish_SetOpen(1);  
 		  osDelay(50);//HAL_Delay(200);
 		  Update_DHT11_ToDisplayBoard_Value();
-		  osDelay(50);//HAL_Delay(200);
+		 
 	        
 		
 		   MqttData_Publish_Update_Data();
 		   osDelay(50);//HAL_Delay(200);
 	   }
 	   else{
-
+         app_flag =1;
 		  smartphone_timer_power_handler();
 
 	   }
 	  
-	   wifi_decoder_refer_init();
 	   if(g_disp.g_second_disp_flag == 1){
 	   	  SendData_Set_Command(CMD_POWER,open);
 		  osDelay(5);
@@ -189,8 +189,37 @@ void power_on_run_handler(void)
 
 
 	case 2:
+	  if(g_pro.gDry==0 && g_wifi.app_timer_power_on_flag == 1 && app_flag ==1){
+		 g_pro.g_manual_shutoff_dry_flag=1;
+		 DRY_CLOSE();
+		 SendData_Set_Command(0x23,0);
+		 osDelay(5);
+		 g_pro.gTimer_read_dht11_data=0;
+		 app_flag ++;
+	   }
+	   else if(app_flag==2){
 
-      temperature_compare_value_handler();
+          // property_report_phone_timer_on_data();// MqttData_Publish_Update_Data();
+		   //osDelay(100);//HAL_Delay(200);
+		   if(g_pro.gMouse==1){
+			   MqttData_Publish_SetUltrasonic(1);
+			   osDelay(50);//HAL_Delay(350);
+           	}
+		    else{
+			   MqttData_Publish_SetUltrasonic(0);
+			   osDelay(50);//HAL_Delay(350);
+
+
+			}
+		   
+	        app_flag ++;
+
+
+	   }
+	   else{
+
+          temperature_compare_value_handler();
+	   }
 	  gl_run.process_on_step =3;
 
 	 break;
@@ -221,7 +250,10 @@ void power_on_run_handler(void)
 	 break;
 
 	 case 4: // wifi function
-         if(g_pro.gTimer_display_adc_value > 5 && g_pro.works_two_hours_interval_flag ==0){
+
+	      
+		
+            if(g_pro.gTimer_display_adc_value > 5 && g_pro.works_two_hours_interval_flag ==0){
 		 	g_pro.gTimer_display_adc_value=0;
 
 		    switch_adc = switch_adc ^ 0x01;
@@ -318,15 +350,25 @@ void power_off_run_handler(void)
            
             power_off_flag++;
 			MqttData_Publish_PowerOff_Ref() ;//
-	        osDelay(200);
+	        osDelay(50);
            
 	  }
 	  else if(power_off_flag==2){
 	  	  power_off_flag++;
           Publish_Data_Warning(fan_warning,0);
-	      osDelay(100);
+	      osDelay(50);
 		  Publish_Data_Warning(ptc_temp_warning,0);
-	      osDelay(100);
+	      osDelay(50);
+
+
+	  }
+	  else if( power_off_flag==3){
+	      
+
+	       MqttData_Publish_PowerOff_Ref() ;//
+		   osDelay(50);
+	       power_off_flag++;
+
 
 
 	  }
@@ -346,6 +388,8 @@ void power_off_run_handler(void)
 
 		    fan_run_one_minute++;
 			FAN_Stop();
+		    MqttData_Publish_PowerOff_Ref() ;//
+		    osDelay(50);
 
 		 }
 

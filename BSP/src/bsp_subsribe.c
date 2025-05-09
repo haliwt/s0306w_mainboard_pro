@@ -12,7 +12,9 @@ void smartphone_timer_power_handler(void)
          g_pro.gAI =1;
 
           Parse_Json_phone_timer_power_on_ref();
+
 		  
+		  #if 0
            if(g_pro.gPlasma==1){//if( gctl_t.gPlasma==1){ //Anion
 			
 
@@ -42,21 +44,47 @@ void smartphone_timer_power_handler(void)
 
 			if(g_pro.gDry==1){//if(gctl_t.gDry==1 ||g_dry_open_flag ==1){
 
-				SendWifiData_To_Cmd(0x02,0x01);
+				SendWifiData_To_Cmd(0x23,0x01);
 				 osDelay(5);
 			}
 			else{
 					g_pro.gDry=0;//gctl_t.gDry=0;
                   
-					SendWifiData_To_Cmd(0x02,0x0);
+					SendWifiData_To_Cmd(0x23,0x0);
 					 osDelay(5);
 
 			}
+		   #endif 
 
-		    
-	
-		   property_report_phone_timer_on_data();// MqttData_Publish_Update_Data();
-		   osDelay(200);//HAL_Delay(200);
+		   SendWifidata_Three_Data(0x20,g_pro.gDry,g_pro.gPlasma,g_pro.gMouse);
+		   osDelay(10);
+           if(g_pro.gDry==0){
+			   MqttData_Publish_SetPtc(0);
+			   osDelay(50);//HAL_Delay(350);
+           	}
+		    else{
+			   MqttData_Publish_SetPtc(1);
+			   osDelay(50);//HAL_Delay(350);
+
+
+			}
+
+			 if(g_pro.gPlasma==0){
+			   MqttData_Publish_SetPlasma(0);
+			   osDelay(50);//HAL_Delay(350);
+           	}
+		    else{
+			   MqttData_Publish_SetPlasma(1);
+			   osDelay(50);//HAL_Delay(350);
+
+
+			}
+
+			
+		  
+	       
+		   //property_report_phone_timer_on_data();// MqttData_Publish_Update_Data();
+		   //osDelay(100);//HAL_Delay(200);
            g_pro.g_manual_shutoff_dry_flag = 0;
 		   g_pro.gTimer_disp_time_second= 0;
 	       g_pro.gTimer_timer_time_second=0;

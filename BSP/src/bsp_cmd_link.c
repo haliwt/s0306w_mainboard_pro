@@ -467,15 +467,23 @@ void SendWifiData_One_Data(uint8_t cmd,uint8_t data)
 	*Return Ref:NO
 	*
 ************************************************************************/
-void SendWifidata_Two_Data(uint8_t cmd,uint8_t datacmd)
+void SendWifidata_Two_Data(uint8_t cmd,uint8_t data1,uint8_t data2)
 {
    
-    uint8_t cmdata[1] = {datacmd};
+    uint8_t cmdata[2] = {data1,data2};
 	FillFrame(outputBuf, cmd, cmdata, 2);
 	TransmitData(outputBuf, 9);
 
 }
 
+void SendWifidata_Three_Data(uint8_t cmd,uint8_t data1,uint8_t data2,uint8_t data3)
+{
+   
+    uint8_t cmdata[3] = {data1,data2,data3};
+	FillFrame(outputBuf, cmd, cmdata, 3);
+	TransmitData(outputBuf, 10);
+
+}
 
 
 #endif 
