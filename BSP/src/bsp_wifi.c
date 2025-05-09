@@ -195,7 +195,7 @@ static void link_wifi_net_handler(void)
 	             if(g_wifi.gwifi_link_net_state_flag==1){
 				
 				    
-					g_wifi.wifi_led_fast_blink_flag=2;
+					g_wifi.wifi_led_fast_blink_flag=0;
 					g_wifi.get_rx_beijing_time_enable=0;
 	                
 	               SendWifiData_One_Data(0x1F,0x01); //link wifi order 1 --link wifi net is success.
@@ -229,7 +229,7 @@ static void link_wifi_net_handler(void)
 static void send_connect_wifi_init(void)
 {
             
-        if(g_wifi.wifi_led_fast_blink_flag==2){
+   
 
 
 		   switch(init_flag){
@@ -263,7 +263,7 @@ static void send_connect_wifi_init(void)
 
 		   	}
           
-      }
+    
 
 }
 
