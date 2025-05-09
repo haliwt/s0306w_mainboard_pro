@@ -263,7 +263,7 @@ void Update_Dht11_Totencent_Value(void)
 	 g_pro.g_humidity_value= dht11_data.humidity;
 
 	MqttData_Publis_ReadTempHum(dht11_data.temperature,dht11_data.humidity);
-    osDelay(100);//HAL_Delay(100);
+    osDelay(200);//HAL_Delay(100);
 
     }
 

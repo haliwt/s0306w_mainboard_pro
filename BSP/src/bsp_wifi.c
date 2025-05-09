@@ -11,8 +11,12 @@ wifi_state_ref g_wifi;
 uint8_t wifi_rx_inputBuf[1];
 
 uint8_t first_connect_wifi_flag;
+uint8_t init_flag;
 
 static void link_wifi_net_handler(void);
+
+static void send_connect_wifi_init(void);
+
 
 /********************************************************************************
 	*
@@ -49,14 +53,16 @@ void link_wifi_to_tencent_handler(uint8_t data)
     }
         
 
-   if(g_wifi.gwifi_link_net_state_flag ==1 && first_connect_wifi_flag ==1){
+   if(g_wifi.gwifi_link_net_state_flag ==1 && first_connect_wifi_flag ==0){
          first_connect_wifi_flag++;
-         Update_Dht11_Totencent_Value();
-         osDelay(20);//HAL_Delay(200) //WT.EDIT 2024.08.10
+		 SendWifiData_One_Data(0x1F,0x01); //link wifi order 1 --link wifi net is success.
+	     osDelay(5);
+        // Update_Dht11_Totencent_Value();
+        // osDelay(200);//HAL_Delay(200) //WT.EDIT 2024.08.10
      }
 
 	
-       
+    send_connect_wifi_init();
   
 }
 
@@ -73,7 +79,7 @@ static void link_wifi_net_handler(void)
 {
   
 
-    uint8_t  device_massage[100];
+    uint8_t  device_massage[120];
   // device_massage = (uint8_t *)malloc(128);
 
       
@@ -141,7 +147,7 @@ static void link_wifi_net_handler(void)
 
 
             case 4:
-                 if(g_wifi.gTimer_link_net_timer_time  > 7){
+                 if(g_wifi.gTimer_link_net_timer_time  > 7){//7
                      g_wifi.gTimer_link_net_timer_time = 0;
 
                    g_wifi.linking_tencent_cloud_doing =1;
@@ -149,8 +155,9 @@ static void link_wifi_net_handler(void)
 	            sprintf((char *)device_massage, "AT+TCSAP=\"UYIJIA01-%d\"\r\n",randomName[0]);
 				
                  at_send_data(device_massage, strlen((const char *)device_massage));
-		
+		         //HAL_Delay(1000);//WT.EDIT 2025.05.08
 
+			
 
                    g_wifi.link_net_step = 5;
 
@@ -162,7 +169,8 @@ static void link_wifi_net_handler(void)
 
             case 5:
                 
-
+  
+			
             if(g_wifi.soft_ap_config_success==1){
 
              g_wifi.soft_ap_config_success=0;
@@ -175,7 +183,7 @@ static void link_wifi_net_handler(void)
             g_wifi.link_net_step = 6;
             g_wifi.gTimer_link_net_timer_time = 0;
             }
-
+            
                    
             break;
 
@@ -187,68 +195,75 @@ static void link_wifi_net_handler(void)
 	             if(g_wifi.gwifi_link_net_state_flag==1){
 				
 				    
-					//g_wifi.first_link_tencent_cloud_flag =1;
-					first_connect_wifi_flag =1 ;
+					g_wifi.wifi_led_fast_blink_flag=2;
 					g_wifi.get_rx_beijing_time_enable=0;
 	                
 	               SendWifiData_One_Data(0x1F,0x01); //link wifi order 1 --link wifi net is success.
-				   g_wifi.link_net_step = 7;
-	              
+	               osDelay(5);
+				  // g_wifi.link_net_step = 7;
+				  init_flag =0;
+	               g_wifi.link_net_step = 0xfe;
 					
 			     }
 			     else{
 	                
 	                  g_wifi.wifi_led_fast_blink_flag=0;
-	                  g_wifi.link_net_step = 8;
+	                 // g_wifi.link_net_step = 8;
 	                  SendWifiData_One_Data(0x1F,0x00) ;	 //Link wifi net is fail .WT.EDTI .2024.08.31
-	                
+	                   osDelay(5);
+
+					   g_wifi.wifi_get_beijing_step= 10;
+                       g_wifi.gTimer_auto_detected_net_state_times = 120;
+                      g_wifi.link_net_step = 0xff;
 	           
 	                }
                 
                }
 
             break;
+        	}
+}
 
-            case 7:
 
+
+static void send_connect_wifi_init(void)
+{
+            
+        if(g_wifi.wifi_led_fast_blink_flag==2){
+
+
+		   switch(init_flag){
+
+		   case 0:
  
-              g_wifi.gTimer_get_data_from_tencent_data=0;
+                 g_wifi.gTimer_get_data_from_tencent_data=0;
 			 
 				 MqttData_Publish_SetOpen(0x01);
 		         
-		         osDelay(50);
+		         osDelay(200);
+				 init_flag = 1;
+		    break;
+
+			case 1:
 		         Publish_Data_ToTencent_Initial_Data();
 				
-                  osDelay(50);
+                  osDelay(200);
+			init_flag = 2;
+
+			break;
+
+			case 2:
 
 				Subscriber_Data_FromCloud_Handler();
 				
-	             osDelay(50);
-			 g_wifi.wifi_led_fast_blink_flag=0;
+	             osDelay(200);
 
-			 g_wifi.link_net_step = 0xfe;
+				 init_flag = 0xff;
+			break;
 
-                   
-            break;
-
-
-            case 8:
-
-
-              g_wifi.wifi_get_beijing_step= 10;
-              g_wifi.gTimer_auto_detected_net_state_times = 120;
-              g_wifi.link_net_step = 0xff;
-
-            break;
-
-
-            default:
-
-
-            break;
-
-
-        }
+		   	}
+          
+      }
 
 }
 

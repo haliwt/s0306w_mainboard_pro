@@ -118,7 +118,7 @@ void power_on_init_ref(void)
 void power_on_run_handler(void)
 {
 
-   static uint8_t send_data_disp_counter,read_error_flag,switch_adc;
+   static uint8_t send_data_disp_counter,read_error_flag,switch_adc,swich_send_data;
 
 	switch(gl_run.process_on_step){
 
@@ -166,8 +166,9 @@ void power_on_run_handler(void)
 	   g_pro.gTimer_two_hours_counter = 0;
 	   g_pro.g_fan_switch_gears_flag++;
 	   gl_run.process_off_step=0;
-	   gl_run.process_on_step =1;
+	   
 	   g_pro.works_two_hours_interval_flag=0; //WT.EDIT 2025.05.07
+	   gl_run.process_on_step =1;
 	 break;
 
 	 case 1:
@@ -186,14 +187,6 @@ void power_on_run_handler(void)
 
 	case 2:
 
-//	
-//      if(g_pro.key_set_temperature_flag==1){
-//
-//         read_error_flag= DHT11_Display_Data(DISPLAY_TEMP); // 显示温度
-//         if(read_error_flag == 0)DHT11_Display_Data(DISPLAY_TEMP);
-//
-//      }
-     
     
 	  gl_run.process_on_step =3;
 
@@ -204,17 +197,21 @@ void power_on_run_handler(void)
           if(g_pro.gTimer_switch_temp_hum > 2){
 
 		  g_pro.gTimer_switch_temp_hum =0;
+          swich_send_data = swich_send_data ^ 0x01;
 
-		  if(g_wifi.gwifi_link_net_state_flag == wifi_link_success){
-		     Update_Dht11_Totencent_Value()  ;
+		  if(swich_send_data ==1){
+			  if(g_wifi.gwifi_link_net_state_flag == wifi_link_success){
+			     Update_Dht11_Totencent_Value()  ;
+			  }
 		  }
+		  else{
 		 
 		   sendData_Real_TimeHum(g_pro.g_humidity_value, g_pro.g_temperature_value);	
 		   osDelay(5);
 
           }
 
-		
+          }
 
 	   gl_run.process_on_step =4;
 
