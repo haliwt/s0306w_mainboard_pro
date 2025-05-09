@@ -119,6 +119,7 @@ void power_on_run_handler(void)
 {
 
    static uint8_t send_data_disp_counter,read_error_flag,switch_adc,swich_send_data;
+   static uint8_t start_power_on;
 
 	switch(gl_run.process_on_step){
 
@@ -167,6 +168,7 @@ void power_on_run_handler(void)
 	   g_pro.gTimer_two_hours_counter = 0;
 	   g_pro.g_fan_switch_gears_flag++;
 	   gl_run.process_off_step=0;
+	  
 	   
 	   g_pro.works_two_hours_interval_flag=0; //WT.EDIT 2025.05.07
 	   gl_run.process_on_step =1;
@@ -219,7 +221,7 @@ void power_on_run_handler(void)
 	 break;
 
 	 case 4: // wifi function
-         if(g_pro.gTimer_display_adc_value > 3){
+         if(g_pro.gTimer_display_adc_value > 5 && g_pro.works_two_hours_interval_flag ==0){
 		 	g_pro.gTimer_display_adc_value=0;
 
 		    switch_adc = switch_adc ^ 0x01;
@@ -228,11 +230,16 @@ void power_on_run_handler(void)
 			}
 			else{
 				
+                if(start_power_on < 10){
+				   start_power_on++;
 
+				}
+				else{
 				if(g_pro.works_two_hours_interval_flag==0){
-	                Get_Fan_Adc_Fun(ADC_CHANNEL_0,5);
+	                Get_Fan_Adc_Fun(ADC_CHANNEL_0,10);
 
 		        }
+					}
 
             }
 
@@ -265,7 +272,7 @@ void power_on_run_handler(void)
 void power_off_run_handler(void)
 {
 
-   static uint8_t fan_flag,wifi_first_connect;
+   static uint8_t fan_flag,wifi_first_connect,power_off_flag;
    switch(gl_run.process_off_step){
 
    case 0:
@@ -273,7 +280,8 @@ void power_off_run_handler(void)
    	  g_disp.g_second_disp_flag=1;
        g_disp.g_second_disp_flag = 1;
 	   g_pro.set_temp_value_success=0;
- 
+	   g_wifi.app_timer_power_on_flag =0;
+       power_off_flag= 1;
   
 	
 	  g_pro.key_gtime_timer_define_flag = normal_time_mode;
@@ -283,9 +291,9 @@ void power_off_run_handler(void)
 
 	  if(g_wifi.gwifi_link_net_state_flag == 1){
             MqttData_Publish_SetOpen(0);  
-			osDelay(50);
-	        MqttData_Publish_PowerOff_Ref() ;//
-	        osDelay(100);
+			osDelay(100);
+	        //MqttData_Publish_PowerOff_Ref() ;//
+	        //osDelay(100);
            
 	  }
 	  if(g_disp.g_second_disp_flag ==1){
@@ -305,6 +313,23 @@ void power_off_run_handler(void)
    break;
 
    case 1:
+
+    if(g_wifi.gwifi_link_net_state_flag == 1 && power_off_flag== 1){
+           
+            power_off_flag++;
+			MqttData_Publish_PowerOff_Ref() ;//
+	        osDelay(200);
+           
+	  }
+	  else if(power_off_flag==2){
+	  	  power_off_flag++;
+          Publish_Data_Warning(fan_warning,0);
+	      osDelay(100);
+		  Publish_Data_Warning(ptc_temp_warning,0);
+	      osDelay(100);
+
+
+	  }
 
      if(fan_flag == 0){
 	 	fan_flag++;

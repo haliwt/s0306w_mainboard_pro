@@ -85,20 +85,21 @@ void wifi_auto_detected_link_state(void)
 		  
       }
 
-   if(dc_power_on==2 && g_wifi.gwifi_link_net_state_flag==1){
+  
+   if(dc_power_on==1){
+
+       dc_power_on++;
+
+        Subscriber_Data_FromCloud_Handler();
+          osDelay(100);
+
+   }
+   else if(dc_power_on==2 && g_wifi.gwifi_link_net_state_flag==1){
 	   dc_power_on++;
 
        SendWifiData_To_Cmd(0x1F,0x01); //link wifi order 1 --link wifi net is success.
        osDelay(5);
 
-
-   }
-   else if(dc_power_on==1){
-
-       dc_power_on++;
-
-        Subscriber_Data_FromCloud_Handler();
-          osDelay(200);
 
    }
 

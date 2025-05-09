@@ -17,25 +17,25 @@ void smartphone_timer_power_handler(void)
 			
 
 				SendWifiData_To_Cmd(0x03,0x01);
-                osDelay(100);
+                osDelay(5);
 			
 			}
 			else{
 				g_pro.gPlasma=0;//gctl_t.gPlasma =0;
 				SendWifiData_To_Cmd(0x03,0x0);
-				 osDelay(100);
+				 osDelay(5);
 			}
 
 
 			if(g_pro.gMouse==1){//if(gctl_t.gUlransonic==1){
 
 					SendWifiData_To_Cmd(0x04,0x01);
-					 osDelay(100);
+					 osDelay(5);
 			}
 			else {
 					g_pro.gMouse=0;//gctl_t.gUlransonic=0;
 					SendWifiData_To_Cmd(0x04,0x0);
-					 osDelay(100);
+					 osDelay(5);
 			}
 
 
@@ -43,13 +43,13 @@ void smartphone_timer_power_handler(void)
 			if(g_pro.gDry==1){//if(gctl_t.gDry==1 ||g_dry_open_flag ==1){
 
 				SendWifiData_To_Cmd(0x02,0x01);
-				 osDelay(100);
+				 osDelay(5);
 			}
 			else{
 					g_pro.gDry=0;//gctl_t.gDry=0;
                   
 					SendWifiData_To_Cmd(0x02,0x0);
-					 osDelay(100);
+					 osDelay(5);
 
 			}
 

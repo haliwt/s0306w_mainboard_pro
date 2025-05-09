@@ -311,7 +311,7 @@ void temperature_compare_value_handler(void)
 //   }
 //   else{
 
-//     #if 
+//     
 //        if(g_pro.g_temperature_value >39){
 
 //         g_pro.gDry =0;

@@ -844,7 +844,7 @@ void Json_Parse_Command_Fun(void)
 			   osDelay(100);//HAL_Delay(350);
 			   if(g_disp.g_second_disp_flag == 1){
 	               SendWifiData_To_Cmd(0x21,0x01); //smart phone is open that App timer 
-				   osDelay(10);//HAL_Delay(10);
+				   osDelay(5);//HAL_Delay(10);
 			   }
                
             
