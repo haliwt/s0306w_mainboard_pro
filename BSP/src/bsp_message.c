@@ -91,6 +91,7 @@ void receive_data_from_displayboard(uint8_t *pdata)
 		  
 		  //manual close flag :
 		   SendWifiData_Answer_Cmd(CMD_PTC,0x01); //WT.EDIT 2025.01.07
+		   osDelay(5);
 		  g_pro.g_manual_shutoff_dry_flag = 0;
 		  if(g_pro.works_two_hours_interval_flag==0){
 		      DRY_OPEN();
@@ -101,10 +102,9 @@ void receive_data_from_displayboard(uint8_t *pdata)
               MqttData_Publish_SetPtc(0x01);
 	  	      osDelay(50);//HAL_Delay(350);
           }
-       
-       }
-       }
-       else if(pdata[4] == 0x0){
+	 		}
+	 	}
+         else if(pdata[4] == 0x0 && g_pro.gpower_on == power_on){
 	   	 if(g_pro.gpower_on == power_on){
 		  g_pro.g_manual_shutoff_dry_flag = 1;
           buzzer_sound();
@@ -122,42 +122,42 @@ void receive_data_from_displayboard(uint8_t *pdata)
           }
 	   	 }
        }
-     	}
+     }
      break;
 
      case 0x03: //PLASMA 打开关闭指令
 
        if(pdata[3] == 0x00){
-	    if(pdata[4]==0x01){
-       if(g_pro.gpower_on == power_on){
-	   	  
-            buzzer_sound();
-			g_pro.gPlasma = 1;
-		    
-		    if(g_pro.works_two_hours_interval_flag==0){
-                PLASMA_OPEN();
-		   }
-		if(g_wifi.gwifi_link_net_state_flag==1){
-           MqttData_Publish_SetPlasma(1);
-		       osDelay(50);//HAL_Delay(350);
-          }
-           
-        }
-        }
-        else if(pdata[4] == 0x0){
-        if(g_pro.gpower_on == power_on){ 
-            buzzer_sound();
-			g_pro.gPlasma = 0;
-		   
-		     PLASMA_CLOSE();
-		   
-		    if(g_wifi.gwifi_link_net_state_flag==1){
-              MqttData_Publish_SetPlasma(0);
-		       osDelay(50);//HAL_Delay(350);
-            }
-           
-        }
-        }
+	   if(pdata[4]==0x01){
+	       if(g_pro.gpower_on == power_on){
+		   	  
+	            buzzer_sound();
+				g_pro.gPlasma = 1;
+			    
+			    if(g_pro.works_two_hours_interval_flag==0){
+	                PLASMA_OPEN();
+			   }
+			if(g_wifi.gwifi_link_net_state_flag==1){
+	           MqttData_Publish_SetPlasma(1);
+			       osDelay(50);//HAL_Delay(350);
+	          }
+	       	}
+	        else if(pdata[4] == 0x0 && g_pro.gpower_on == power_on){
+	           if(g_pro.gpower_on == power_on){ 
+	            buzzer_sound();
+				g_pro.gPlasma = 0;
+			   
+			     PLASMA_CLOSE();
+			   
+			    if(g_wifi.gwifi_link_net_state_flag==1){
+	              MqttData_Publish_SetPlasma(0);
+			       osDelay(50);//HAL_Delay(350);
+	            }
+	           
+	        }
+	        }
+       		
+	   	}
        	}
       break;
 
@@ -179,8 +179,8 @@ void receive_data_from_displayboard(uint8_t *pdata)
           }
            
           }
-       }
-        else if(pdata[4] == 0x0){ //close 
+        }
+        else if(pdata[4] == 0x0 && g_pro.gpower_on == power_on){ //close 
 		 if(g_pro.gpower_on == power_on){ 
 					buzzer_sound();
 					g_pro.gMouse = 0;
@@ -314,11 +314,8 @@ void receive_data_from_displayboard(uint8_t *pdata)
 	         
 			   if(g_pro.gpower_on == power_on){ 
 				
-                g_pro.g_manual_shutoff_dry_flag =0;
-        
-
-				
-			    g_pro.g_manual_shutoff_dry_flag=0;
+              
+        		g_pro.g_manual_shutoff_dry_flag=0;
 			    g_pro.set_temp_value_success =1; //WT.EDIT 2025.05.09
 				
 			  
@@ -351,7 +348,7 @@ void receive_data_from_displayboard(uint8_t *pdata)
         
         if(g_pro.gpower_on == power_on){
 
-		g_pro.g_manual_shutoff_dry_flag=0;
+		//g_pro.g_manual_shutoff_dry_flag=0;
         g_pro.gDry = 1;
 		
      	if(g_pro.works_two_hours_interval_flag==0){
@@ -367,10 +364,10 @@ void receive_data_from_displayboard(uint8_t *pdata)
        
 				}
 	  }
-      else if(pdata[4] == 0x0){
-        if(g_pro.gpower_on == power_on){
+      else if(pdata[4] == 0x0 && g_pro.gpower_on == power_on){
+        
 
-		   g_pro.g_manual_shutoff_dry_flag=0;
+		   //g_pro.g_manual_shutoff_dry_flag=0;
          
             g_pro.gDry =0;
 		    
@@ -380,11 +377,11 @@ void receive_data_from_displayboard(uint8_t *pdata)
             
          if(g_wifi.gwifi_link_net_state_flag==1){
               MqttData_Publish_SetPtc(0x0);
-	  	      osDelay(20);//HAL_Delay(350);
+	  	      osDelay(50);//HAL_Delay(350);
           }
 	   	 
        
-      }
+      
 		}
 	  	}
      break;

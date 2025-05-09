@@ -600,7 +600,7 @@ void Json_Parse_Command_Fun(void)
 	  if(g_pro.gpower_on ==power_on){
 	    if(g_pro.ptc_warning ==0){
          MqttData_Publish_SetPtc(0x01);
-	  	 osDelay(100);//HAL_Delay(350);
+	  	 osDelay(200);//HAL_Delay(350);
 		 g_pro.gDry = 1;
 		
 
@@ -627,7 +627,7 @@ void Json_Parse_Command_Fun(void)
 	  	if(g_pro.gpower_on ==power_on){
 	
          MqttData_Publish_SetPtc(0);
-		 osDelay(100);//HAL_Delay(350);
+		 osDelay(200);//HAL_Delay(350);
 		 g_pro.gDry = 0;
 	
 	     DRY_CLOSE();

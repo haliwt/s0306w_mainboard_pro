@@ -60,7 +60,7 @@ void mainboard_fun_handler(void)
 
 	}
 
-	if(g_pro.gDry == 1 && read_wifi_dry_value()==0){
+	if(g_pro.gDry == 1 && g_pro.g_manual_shutoff_dry_flag ==0){
 		DRY_OPEN();
 		
 	}
@@ -101,7 +101,7 @@ static void mainboard_special_fun(void)
 
   
 
-	if(g_pro.gDry == 1){
+	if(g_pro.gDry == 1 && g_pro.g_manual_shutoff_dry_flag ==0){
 		DRY_OPEN();
 		
 	}
