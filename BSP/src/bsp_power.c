@@ -125,7 +125,8 @@ void power_on_run_handler(void)
 
      case 0:  //initial reference 
        gl_run.process_off_step =0 ; //clear power off process step .
-		 
+	   g_disp.g_second_disp_flag = 1;
+	   g_pro.set_temp_value_success=0;
       
        if(g_wifi.gwifi_link_net_state_flag == wifi_no_link || g_wifi.app_timer_power_on_flag == 0){
 	      
@@ -162,7 +163,7 @@ void power_on_run_handler(void)
 	   
 	   }
 	   
-       
+      
 	   g_pro.gTimer_two_hours_counter = 0;
 	   g_pro.g_fan_switch_gears_flag++;
 	   gl_run.process_off_step=0;
@@ -187,7 +188,7 @@ void power_on_run_handler(void)
 
 	case 2:
 
-    
+      temperature_compare_value_handler();
 	  gl_run.process_on_step =3;
 
 	 break;
@@ -270,6 +271,8 @@ void power_off_run_handler(void)
    case 0:
    	  gl_run.process_on_step =0;
    	  g_disp.g_second_disp_flag=1;
+       g_disp.g_second_disp_flag = 1;
+	   g_pro.set_temp_value_success=0;
  
   
 	

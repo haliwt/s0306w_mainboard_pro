@@ -269,3 +269,83 @@ void copy_cmd_hanlder(void)
 
 }
 
+void temperature_compare_value_handler(void)
+{
+  static uint8_t first_one_flag;
+
+    if(g_pro.gTimer_read_dht11_data > 3){
+		g_pro.gTimer_read_dht11_data= 0;
+    Update_DHT11_ToDisplayBoard_Value();
+
+    if(g_pro.set_temp_value_success ==1){
+		
+	    
+      if(g_pro.set_up_temperature_value > g_pro.g_temperature_value){ //PTC TURN ON
+
+      if(g_pro.g_manual_shutoff_dry_flag == 0){ //allow open dry function 
+ 
+        g_pro.gDry = 1;
+       
+	    DRY_OPEN();
+        SendData_Set_Command(0x02,0x01);//SendData_Set_Command(DRY_ON_NO_BUZZER);
+		osDelay(5);
+		
+        
+     }
+     }
+     else{ //PTC turn off 
+         g_pro.gDry =0;
+         DRY_CLOSE();
+     
+    	 SendData_Set_Command(0x02,0x0);//SendData_Set_Command(DRY_OFF_NO_BUZZER);
+    	  osDelay(5);
+    
+        }
+
+   }
+   else{
+        if(g_pro.g_temperature_value >39){
+
+         g_pro.gDry =0;
+         DRY_CLOSE();
+      
+    	 SendData_Set_Command(0x01,0x0);//SendData_Set_Command(DRY_OFF_NO_BUZZER);
+    	 osDelay(5);
+        
+         first_one_flag =1;
+        }
+        else{
+
+           if(first_one_flag==1 && (g_pro.g_temperature_value <38) && g_pro.g_manual_shutoff_dry_flag == 0){
+
+              
+                 g_pro.gDry =1;
+            
+                 DRY_OPEN();
+		         SendData_Set_Command(0X02,0x01);
+				 osDelay(5);
+
+              
+            }
+		    else{
+
+			 if(first_one_flag==0 && (g_pro.g_temperature_value <39) && g_pro.g_manual_shutoff_dry_flag == 0){
+			                g_pro.gDry =1;
+						
+							 DRY_OPEN();
+							 SendData_Set_Command(0X02,0x01);
+							 osDelay(5);
+
+
+
+			 }
+
+
+			}
+           }
+
+      }
+    	}
+}
+
+

@@ -123,7 +123,7 @@ typedef struct _process{
   
 
    uint8_t g_fan_switch_gears_flag;
-   uint8_t key_set_temperature_flag;
+  
    
 
    uint8_t gTemp_value;
@@ -142,8 +142,8 @@ typedef struct _process{
    uint8_t ptc_warning;
    uint8_t fan_warning ;
 
- //  uint8_t  gdisp_time_minutes;
- //  uint8_t  gdisp_timer_time_minutes;
+   uint8_t set_temp_value_success;
+   uint8_t set_up_temperature_value;
 
 
 
@@ -156,7 +156,7 @@ typedef struct _process{
    
    uint8_t  gTimer_switch_temp_hum;
   
- 
+   uint8_t  gTimer_read_dht11_data;
    uint8_t   gTimer_fan_run_one_minute;
 
 
@@ -176,5 +176,8 @@ void mainboard_close_all_fun(void);
 void works_run_two_hours_state(void);
 
 void copy_cmd_hanlder(void);
+
+void temperature_compare_value_handler(void);
+
 
 #endif /* BSP_INC_BSP_H_ */

@@ -92,11 +92,7 @@ static void vTaskRunPro(void *pvParameters)
 {
     while(1){
 
-      
-	
-	 power_onoff_handler(g_pro.gpower_on);
-	
-	
+    power_onoff_handler(g_pro.gpower_on);
 	
 	if(g_wifi.wifi_led_fast_blink_flag ==0 ){
 		wifi_communication_tnecent_handler();//
@@ -154,25 +150,7 @@ static void vTaskStart(void *pvParameters)
 				
 		 }
 	 }
-	#if 0
-	 else{
-	 power_onoff_handler(g_pro.gpower_on);
-	
-	
-	
-	if(g_wifi.wifi_led_fast_blink_flag==0 ){
-		wifi_communication_tnecent_handler();//
-		getBeijingTime_cofirmLinkNetState_handler();
-		wifi_auto_detected_link_state();
-	}
-	
-	copy_cmd_hanlder();
 
-    // osDelay(10);
-
-
-	 }
-	 #endif 
 	 
 	 }
 }

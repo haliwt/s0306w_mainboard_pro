@@ -37,11 +37,8 @@ typedef struct _wifi_state_ref{
 
    uint8_t link_net_step ;
 
-   uint8_t g_wifi_set_temp_flag;
-
-
-  
-  uint8_t set_wind_speed_value;
+ 
+   uint8_t set_wind_speed_value;
   
   uint8_t wifi_get_beijing_step;
 
@@ -82,7 +79,7 @@ typedef struct _wifi_state_ref{
   uint8_t gTimer_auto_link_net_time;
   uint8_t gTimer_auto_detected_net_state_times;
   uint8_t gTimer_link_net_timer_time;
-  uint8_t  gTimer_update_dht11_data;
+ 
 
 
 

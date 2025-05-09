@@ -242,8 +242,9 @@ void Update_DHT11_ToDisplayBoard_Value(void)
      osDelay(200);
 	
     if(error_flag ==0)
+		g_pro.g_temperature_value = dht11_data.temperature;
 	    sendData_Real_TimeHum(dht11_data.humidity,dht11_data.temperature);
-	
+	    osDelay(5);
     
 }
 
