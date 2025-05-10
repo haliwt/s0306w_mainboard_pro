@@ -129,7 +129,8 @@ void power_on_run_handler(void)
 	   g_disp.g_second_disp_flag = 1;
 	   g_pro.set_temp_value_success=0;
 	  
-      
+       Update_DHT11_ToDisplayBoard_Value();
+	   osDelay(5);
        if(g_wifi.gwifi_link_net_state_flag == wifi_no_link || g_wifi.app_timer_power_on_flag == 0){
 	      
 		   power_on_init_ref();
@@ -381,6 +382,8 @@ void power_off_run_handler(void)
      if(fan_flag == 0){
 	 	fan_flag++;
 	  fan_run_one_minute =2;
+	    Update_DHT11_ToDisplayBoard_Value();
+		 osDelay(5);
      }
 
 	 if(fan_run_one_minute ==1){
