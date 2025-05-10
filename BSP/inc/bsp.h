@@ -64,7 +64,7 @@
 
 #define  USE_FreeRTOS      1
   
-#define  TEST_UNIT        1
+#define  TEST_UNIT        0
 
 
 #if USE_FreeRTOS == 1
