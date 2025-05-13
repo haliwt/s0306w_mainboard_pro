@@ -174,7 +174,7 @@ void works_run_two_hours_state(void)
 	mouse_close();
     g_pro.gTimer_fan_run_one_minute=0;
 
-
+    g_pro.fan_start_delay_run=0;
 	timer_fan_flag=1;
 
    

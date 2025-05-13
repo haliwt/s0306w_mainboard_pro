@@ -11,6 +11,8 @@ static void Judge_Fan_State(uint16_t adc_value);
 
 uint16_t ptc_temp_voltage;
 uint16_t fan_detect_voltage;
+uint8_t detect_fan_error_times;
+
 /*****************************************************************
 *
 	*Function Name: static uint16_t Get_Adc(uint32_t ch)  
@@ -168,12 +170,12 @@ void Get_Fan_Adc_Fun(uint32_t channel,uint8_t times)
 static void Judge_Fan_State(uint16_t adc_value)
 {
 
-  static uint8_t detect_error_times;
-   if(adc_value <300){ //500
-         detect_error_times++;
+ 
+   if(adc_value <350){ //500
+         detect_fan_error_times++;
 	          
-		if(detect_error_times >0){
-			detect_error_times=0;
+		if(detect_fan_error_times >2){
+			detect_fan_error_times=0;
 		   g_pro.fan_warning = 1;
 
 		  Publish_Data_Warning(fan_warning,g_pro.fan_warning);
@@ -186,9 +188,14 @@ static void Judge_Fan_State(uint16_t adc_value)
 
 
 		}
-		detect_error_times++;
+		detect_fan_error_times++;
 
      }
+     else{
+
+	   detect_fan_error_times=0;
+
+	 }
 
 
 

@@ -123,6 +123,7 @@ typedef struct _process{
   
 
    uint8_t g_fan_switch_gears_flag;
+   uint8_t  fan_start_delay_run;
   
    
 
