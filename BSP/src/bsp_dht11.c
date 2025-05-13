@@ -218,6 +218,11 @@ DHT11_Status DHT11_Display_Data(uint8_t mode)
     return DHT11_OK;
 }
 
+/**
+ * @brief  在TM1639上显示DHT11的温湿度数据
+ * @param  mode: 0-显示温度，1-显示湿度
+ * @retval DHT11_Status 类型的操作结果
+ */
 
 uint8_t read_dht11_temperature_value(void)
 {
@@ -233,6 +238,11 @@ uint8_t read_dht11_temperature_value(void)
 }
 
 
+/**
+ * @brief  在TM1639上显示DHT11的温湿度数据
+ * @param  mode: 0-显示温度，1-显示湿度
+ * @retval DHT11_Status 类型的操作结果
+ */
 
 void Update_DHT11_ToDisplayBoard_Value(void)
 {
@@ -250,6 +260,11 @@ void Update_DHT11_ToDisplayBoard_Value(void)
 
 
 
+/**
+ * @brief  在TM1639上显示DHT11的温湿度数据
+ * @param  mode: 0-显示温度，1-显示湿度
+ * @retval DHT11_Status 类型的操作结果
+ */
 
 void Update_Dht11_Totencent_Value(void)
 {
