@@ -1,7 +1,7 @@
 /*
  * bsp_message.c
  *
- *  Created on: 2025年3月4日
+ *  Created on: 2025幄1�73朄1�74旄1�7
  *      Author: Administrator
  */
 #include "bsp.h"
@@ -49,9 +49,9 @@ void receive_data_from_displayboard(uint8_t *pdata)
 
      break;
 
-     case 0x01: //表示开机指令
+     case 0x01: //表示弢�机指仄1�7
 
-        if(pdata[3] == 0x00){ // comand 判断是数据还是命令
+        if(pdata[3] == 0x00){ // comand 判断是数据还是命仄1�7
 
 		
           if(pdata[4] == 0x01){ 
@@ -82,7 +82,7 @@ void receive_data_from_displayboard(uint8_t *pdata)
 
      case 0x02: //PTC打开关闭指令
 
-     if(pdata[3] == 0x00){ //判断是否是数据，或者指令通知， 00- 命令和指令，下一个字节是指令 ；0x0F- 数据，下一个字节是数据个数
+     if(pdata[3] == 0x00){ //判断是否是数据，或��指令��知＄1�7 00- 命令和指令，下一个字节是指令 ＄1�70x0F- 数据，下丢�个字节是数据个数
 	 	if(pdata[4]==0x01){
 	 	if(g_pro.gpower_on == power_on){
 		 
@@ -142,6 +142,7 @@ void receive_data_from_displayboard(uint8_t *pdata)
 			       osDelay(50);//HAL_Delay(350);
 	          }
 	       	}
+	        }
 	        else if(pdata[4] == 0x0 && g_pro.gpower_on == power_on){
 	           if(g_pro.gpower_on == power_on){ 
 	            buzzer_sound();
@@ -157,14 +158,14 @@ void receive_data_from_displayboard(uint8_t *pdata)
 	        }
 	        }
        		
-	   	}
+	   	
        	}
       break;
 
 
       case 0x04: //ultrasonic  打开关闭指令
 
-       if(pdata[3] == 0x00){ // 00-》表示是指令或者通知，不是数据，下一个数据就是命令或者通知
+       if(pdata[3] == 0x00){ // 00-》表示是指令或����知，不是数据，下一个数据就是命令或者��知
 	 	if(pdata[4]==0x01){
           if(g_pro.gpower_on == power_on){ 
             buzzer_sound();
@@ -286,7 +287,7 @@ void receive_data_from_displayboard(uint8_t *pdata)
         }
       break;
 
-      case 0x1C: //表示时间：小时，分，秒
+      case 0x1C: //表示时间：小时，分，秄1�7
 
         if(pdata[3] == 0x0F){ //数据
 
@@ -295,7 +296,7 @@ void receive_data_from_displayboard(uint8_t *pdata)
         }
       break;
 
-        case 0x1D: //表示日期： 年，月，日
+        case 0x1D: //表示日期＄1�7 年，月，旄1�7
 
         if(pdata[3] == 0x0F){ //数据
 
@@ -342,7 +343,7 @@ void receive_data_from_displayboard(uint8_t *pdata)
 
      case 0x22: //PTC打开关闭指令,buzzer don't sound,温度对比后的指令
 
-	  if(pdata[3]==0){ //表示是指令
+	  if(pdata[3]==0){ //表示是指仄1�7
 
       if(pdata[4] == 0x01){
         
