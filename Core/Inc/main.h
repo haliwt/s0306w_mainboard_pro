@@ -68,12 +68,12 @@ void Error_Handler(void);
 
 //GPIO CTL
 
-#define RELAY_Pin                  GPIO_PIN_0//GPIO_PIN_15
-#define RELAY_GPIO_Port            GPIOB//GPIOC
+#define RELAY_Pin                 		   GPIO_PIN_0//GPIO_PIN_15
+#define RELAY_GPIO_Port            			GPIOB//GPIOC
 
 
-#define PLASMA_Pin 							GPIO_PIN_5//GPIO_PIN_15
-#define PLASMA_GPIO_Port 					GPIOA
+//#define PLASMA_Pin 						GPIO_PIN_4//WT.EDIT.2025.07.24 //GPIO_PIN_15
+//#define PLASMA_GPIO_Port 					GPIOA
 //BUZZER GPIO
 #define BUZZER_PWM_Pin 						GPIO_PIN_1
 #define BUZZER_PWM_GPIO_Port 				GPIOB
@@ -105,13 +105,39 @@ void Error_Handler(void);
 
 //FAN GPIO
 
-#define FAN_CCW_Pin                GPIO_PIN_6
+//#define FAN_CCW_Pin               GPIO_PIN_5 // WT.EDIT 2025.07.24//GPIO_PIN_6
+//#define FAN_CCW_GPIO_Port         GPIOA
+//
+//#define FAN_CW_Pin               GPIO_PIN_7
+//#define FAN_CW_GPIO_Port         GPIOA
+
+
+#ifdef OLDER_PCB //2024.07.24
+
+#define PLASMA_Pin              GPIO_PIN_5
+#define PLASMA_GPIO_Port        GPIOA
+
+#define FAN_CCW_Pin             GPIO_PIN_6
+
+#define FAN_GPIO_Port           GPIOA
+
+
+#define FAN_CW_Pin               GPIO_PIN_7
+#define FAN_CW_GPIO_Port         GPIOA
+
+#else
+
+#define PLASMA_Pin              GPIO_PIN_4
+#define PLASMA_GPIO_Port        GPIOA
+
+#define FAN_CCW_Pin             GPIO_PIN_5
 #define FAN_CCW_GPIO_Port           GPIOA
 
 #define FAN_CW_Pin               GPIO_PIN_7
 #define FAN_CW_GPIO_Port         GPIOA
 
 
+#endif
 
 
 

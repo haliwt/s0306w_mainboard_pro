@@ -1,7 +1,7 @@
 /*
  * bsp_subsribe.c
  *
- *  Created on: 2025Âπ¥3Êúà10Êó•
+ *  Created on: 2025Âπ?3Êú?10Êó?
  *      Author: Administrator
  */
 #include "bsp.h"
@@ -12,49 +12,6 @@ void smartphone_timer_power_handler(void)
          g_pro.gAI =1;
 
           Parse_Json_phone_timer_power_on_ref();
-
-		  
-		  #if 0
-           if(g_pro.gPlasma==1){//if( gctl_t.gPlasma==1){ //Anion
-			
-
-				SendWifiData_To_Cmd(0x03,0x01);
-                osDelay(5);
-			
-			}
-			else{
-				g_pro.gPlasma=0;//gctl_t.gPlasma =0;
-				SendWifiData_To_Cmd(0x03,0x0);
-				 osDelay(5);
-			}
-
-
-			if(g_pro.gMouse==1){//if(gctl_t.gUlransonic==1){
-
-					SendWifiData_To_Cmd(0x04,0x01);
-					 osDelay(5);
-			}
-			else {
-					g_pro.gMouse=0;//gctl_t.gUlransonic=0;
-					SendWifiData_To_Cmd(0x04,0x0);
-					 osDelay(5);
-			}
-
-
-
-			if(g_pro.gDry==1){//if(gctl_t.gDry==1 ||g_dry_open_flag ==1){
-
-				SendWifiData_To_Cmd(0x23,0x01);
-				 osDelay(5);
-			}
-			else{
-					g_pro.gDry=0;//gctl_t.gDry=0;
-                  
-					SendWifiData_To_Cmd(0x23,0x0);
-					 osDelay(5);
-
-			}
-		   #endif 
 
 		   SendWifidata_Three_Data(0x20,g_pro.gDry,g_pro.gPlasma,g_pro.gMouse);
 		   osDelay(10);
@@ -104,7 +61,7 @@ void SetPowerOff_ForDoing(void)
    
     g_pro.gDry=0;//gctl_t.gDry = 0;
   
-	g_pro.gPlasma=0;//gctl_t.gPlasma =0;       //"ÊùÄËèå"
+	g_pro.gPlasma=0;//gctl_t.gPlasma =0;       //"Êù?Ëè?"
 	g_pro.gMouse=0;//gctl_t.gUlransonic = 0; // "È©±Ëô´"
 	g_pro.gAI =1;
 

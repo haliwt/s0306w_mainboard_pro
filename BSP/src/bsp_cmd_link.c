@@ -219,7 +219,7 @@ void SendWifidata_Three_Data(uint8_t cmd,uint8_t data1,uint8_t data2,uint8_t dat
 }
 
 
-#endif 
+
 
 //void EUSART_SetTxInterruptHandler(void (* interruptHandler)(void))
 //{

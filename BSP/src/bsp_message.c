@@ -128,8 +128,8 @@ void receive_data_from_displayboard(uint8_t *pdata)
      case 0x03: //PLASMA 打开关闭指令
 
        if(pdata[3] == 0x00){
-	   if(pdata[4]==0x01){
-	       if(g_pro.gpower_on == power_on){
+	   if(pdata[4]==0x01 && g_pro.gpower_on == power_on){
+	     
 		   	  
 	            buzzer_sound();
 				g_pro.gPlasma = 1;
@@ -141,21 +141,23 @@ void receive_data_from_displayboard(uint8_t *pdata)
 	           MqttData_Publish_SetPlasma(1);
 			       osDelay(50);//HAL_Delay(350);
 	          }
-	       	}
-	        }
-	        else if(pdata[4] == 0x0 && g_pro.gpower_on == power_on){
-	           if(g_pro.gpower_on == power_on){ 
+	       	
+	      }
+	      else if(pdata[4] == 0x0 && g_pro.gpower_on == power_on){
+	          
 	            buzzer_sound();
 				g_pro.gPlasma = 0;
 			   
 			     PLASMA_CLOSE();
+				
+				
 			   
 			    if(g_wifi.gwifi_link_net_state_flag==1){
 	              MqttData_Publish_SetPlasma(0);
 			       osDelay(50);//HAL_Delay(350);
 	            }
 	           
-	        }
+	        
 	        }
        		
 	   	
